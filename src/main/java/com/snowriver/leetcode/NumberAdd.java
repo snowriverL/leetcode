@@ -1,8 +1,6 @@
 package com.snowriver.leetcode;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -24,9 +22,9 @@ import java.util.stream.Collectors;
  */
 public class NumberAdd {
 
-    private static int[] nums = new int[]{3, 3};
+    private static int[] nums = new int[]{2, 5,5,11};
 
-    private static int target = 6;
+    private static int target = 10;
 
     public static void main(String[] args) {
         int[] ints = twoSum(nums, target);
@@ -34,9 +32,17 @@ public class NumberAdd {
     }
 
     public static int[] twoSum(int[] nums, int target) {
-        List<Integer> numList = Arrays.stream(nums).boxed().collect(Collectors.toList());
-        Integer beforeValue = 0;
-        return getEndIndex(numList, beforeValue, target);
+        /*List<Integer> numList = Arrays.stream(nums).boxed().collect(Collectors.toList());
+        Integer beforeValue = 0;*/
+        Map<Integer, Integer> sumMap = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int result = target - nums[i];
+            if (sumMap.containsKey(result)) {
+                return new int[]{sumMap.get(result), i};
+            }
+            sumMap.put(nums[i], i);
+        }
+        return new int[0];
     }
 
     public static int[] getEndIndex(List<Integer> numList, Integer beforeValue, Integer target) {
@@ -44,6 +50,10 @@ public class NumberAdd {
         int[] result = new int[2];
         for(;;) {
             for (int i = 0; i < numList.size(); i++) {
+                if (numList.get(i) > target) {
+                    index++;
+                    continue;
+                }
                 if (i < index) {
                     continue;
                 }
@@ -64,4 +74,5 @@ public class NumberAdd {
             }
         }
     }
+
 }
